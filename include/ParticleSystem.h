@@ -77,16 +77,22 @@ class ParticleSystem : public System {
 		return { { ci::geom::Attrib::CUSTOM_0, "position_mass" }, { ci::geom::Attrib::CUSTOM_1, "velocity_mass" } };
 	}
 
-	ci::gl::BufferTextureRef &getPositionBufferTextureRef( int index ) {
-		return mPositionBufferTextures[index]; 
+	ci::gl::BufferTextureRef &getPositionBufferTextureRef( int index )
+	{
+		return mPositionBufferTextures[index];
 	}
 
 	ci::gl::GlslProg::Format getRendererGlslFormat() override
 	{
 		ci::gl::GlslProg::Format format;
-		format.attribLocation("position_mass", PARTICLES_POS_INDEX);
-		format.attribLocation("velocity_mass", PARTICLES_VEL_INDEX);
+		format.attribLocation( "position_mass", PARTICLES_POS_INDEX );
+		format.attribLocation( "velocity_mass", PARTICLES_VEL_INDEX );
 		return format;
+	}
+
+	SystemRef getSystemRef()
+	{
+		return static_cast<SystemRef>( this );
 	}
 
   protected:
@@ -110,7 +116,6 @@ class ParticleSystem : public System {
 	ci::gl::BufferTextureRef mInfoBufferTexture;
 
 	void _update() override;
-
 };
 
 } // namespace ps

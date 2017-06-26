@@ -22,8 +22,8 @@ SOFTWARE.
 
 #pragma once
 
-#include "System.h"
 #include "ParticleSystem.h"
+#include "System.h"
 
 namespace reza {
 namespace ps {
@@ -37,7 +37,7 @@ class PlexusSystem : public System {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		ci::gl::GlslProg::Format &glslFormat,
-		ParticleSystemRef &particleSystemRef, 
+		ParticleSystemRef particleSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr )
@@ -47,7 +47,8 @@ class PlexusSystem : public System {
 
 	virtual ~PlexusSystem();
 
-	ci::gl::BufferTextureRef &getDistanceBufferTextureRef(int index) {
+	ci::gl::BufferTextureRef &getDistanceBufferTextureRef( int index )
+	{
 		return mDistanceBufferTextures[index];
 	}
 
@@ -56,15 +57,15 @@ class PlexusSystem : public System {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		ci::gl::GlslProg::Format &glslFormat,
-		ParticleSystemRef &particleSystemRef,
+		ParticleSystemRef particleSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr );
 
-	void setupBuffers() override; 
+	void setupBuffers() override;
 	void updateBuffers() override;
 
-	ParticleSystemRef mParticleSystemRef; 
+	ParticleSystemRef mParticleSystemRef;
 	ci::gl::VboRef mDistancesVbo[2];
 	ci::gl::BufferTextureRef mDistanceBufferTextures[2];
 

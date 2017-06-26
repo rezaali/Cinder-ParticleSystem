@@ -25,8 +25,8 @@ SOFTWARE.
 #include "cinder/Exception.h"
 #include "cinder/Filesystem.h"
 
-#include "Renderer.h"
 #include "ParticleSystem.h"
+#include "Renderer.h"
 
 namespace reza {
 namespace ps {
@@ -37,7 +37,7 @@ class SpriteRenderer : public Renderer {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr )
@@ -52,12 +52,12 @@ class SpriteRenderer : public Renderer {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr );
 
-	ParticleSystemRef mParticleSystemRef; 
+	ParticleSystemRef mParticleSystemRef;
 	ci::gl::BatchRef mBatchRef[2];
 
 	void _draw() override;

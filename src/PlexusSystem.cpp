@@ -28,7 +28,7 @@ PlexusSystem::PlexusSystem(
 	const WindowRef &window,
 	const fs::path &vertexPath,
 	gl::GlslProg::Format &glslFormat,
-	ParticleSystemRef &particleSystemRef,
+	ParticleSystemRef particleSystemRef,
 	std::function<void()> superFn,
 	std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn,
 	std::function<void( ci::Exception )> glslErrorFn )
@@ -105,7 +105,7 @@ void PlexusSystem::_update()
 	if( mParticleSystemRef ) {
 		gl::ScopedGlslProg scpGlsl( mGlslProgRef );
 		gl::ScopedState stateScope( GL_RASTERIZER_DISCARD, true );
-		mGlslParamsRef->applyUniforms(mGlslProgRef);
+		mGlslParamsRef->applyUniforms( mGlslProgRef );
 		mGlslProgRef->uniform( "uPositionMass", 0 );
 		gl::ScopedVao vaoScope( mVaos[mIterationIndex & 1] );
 		mParticleSystemRef->getPositionBufferTextureRef( mIterationIndex & 1 )->bindTexture( 0 );

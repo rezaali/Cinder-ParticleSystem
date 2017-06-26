@@ -26,8 +26,8 @@ SOFTWARE.
 #include "cinder/gl/Batch.h"
 #include "cinder/gl/GlslProg.h"
 
-#include "System.h"
 #include "GlslParams.h"
+#include "System.h"
 
 namespace reza {
 namespace ps {
@@ -48,36 +48,35 @@ class Renderer : public std::enable_shared_from_this<class Renderer> {
 	virtual bool isInitialized() { return mGlslInitialized; }
 	virtual void setInitialized( bool initialized ) { mGlslInitialized = initialized; }
 	virtual ci::gl::GlslProgRef getGlslProgRef() { return mGlslProgRef; }
-
 	bool mDraw = true;
 	bool mAdditiveBlending = false;
 	bool mDepthTest = true;
 	bool mDepthWrite = true;
 
   protected:
-	Renderer(const ci::app::WindowRef &window,
+	Renderer( const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::SystemRef &systemRef,
+		reza::ps::SystemRef systemRef,
 		std::function<void()> superFn = nullptr,
-		std::function<void(reza::glsl::GlslParamsRef)> glslUpdatedFn = nullptr,
-		std::function<void(ci::Exception)> glslErrorFn = nullptr);
+		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
+		std::function<void( ci::Exception )> glslErrorFn = nullptr );
 
-	bool mSetupBatch = false; 
+	bool mSetupBatch = false;
 	bool mGlslInitialized = false;
 	std::function<void()> mSuperFn = nullptr;
 	std::function<void( reza::glsl::GlslParamsRef )> mGlslUpdatedFn = nullptr;
 	std::function<void( ci::Exception )> mGlslErrorFn = nullptr;
 
-	reza::ps::SystemRef mSystemRef; 
-	ci::gl::GlslProg::Format mGlslProgFormat; 
+	reza::ps::SystemRef mSystemRef;
+	ci::gl::GlslProg::Format mGlslProgFormat;
 	ci::gl::GlslProgRef mGlslProgRef;
 	reza::glsl::GlslParamsRef mGlslParamsRef;
 	ci::app::WindowRef mWindowRef;
 	ci::fs::path mVertexPath;
 	ci::fs::path mFragmentPath;
 
-	virtual void _draw() = 0; 
+	virtual void _draw() = 0;
 };
 
 } // namespace ps

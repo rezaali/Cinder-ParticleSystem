@@ -1,4 +1,4 @@
-#include "..\include\PointRenderer.h"
+#include "PointRenderer.h"
 
 #include "LiveCode.h"
 #include "cinder/gl/gl.h"
@@ -16,7 +16,7 @@ PointRenderer::PointRenderer(
 	const WindowRef &window,
 	const fs::path &vertexPath,
 	const fs::path &fragmentPath,
-	ParticleSystemRef &particleSystemRef,
+	ParticleSystemRef particleSystemRef,
 	std::function<void()> superFn,
 	std::function<void( GlslParamsRef )> glslUpdatedFn,
 	std::function<void( ci::Exception )> glslErrorFn )

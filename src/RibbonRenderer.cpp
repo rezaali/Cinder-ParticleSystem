@@ -21,8 +21,8 @@ RibbonRenderer::RibbonRenderer(
 	const fs::path &vertexPath,
 	const fs::path &fragmentPath,
 	const fs::path &geometryPath,
-	reza::ps::ParticleSystemRef &particleSystemRef,
-	reza::ps::TrailSystemRef &trailSystemRef,
+	reza::ps::ParticleSystemRef particleSystemRef,
+	reza::ps::TrailSystemRef trailSystemRef,
 	std::function<void()> superFn,
 	std::function<void( GlslParamsRef )> glslUpdatedFn,
 	std::function<void( ci::Exception )> glslErrorFn )
@@ -38,7 +38,7 @@ RibbonRenderer::RibbonRenderer(
 	  mTrailSystemRef( trailSystemRef ),
 	  mGeometryPath( geometryPath )
 {
-	mGlslProgFormat = gl::GlslProg::Format(); 
+	mGlslProgFormat = gl::GlslProg::Format();
 }
 
 void RibbonRenderer::setupGlsl()
@@ -47,9 +47,9 @@ void RibbonRenderer::setupGlsl()
 	auto fragment = mFragmentPath;
 	auto geometry = mGeometryPath;
 
-	wd::unwatch(vertex);
-	wd::unwatch(fragment);
-	wd::unwatch(geometry);
+	wd::unwatch( vertex );
+	wd::unwatch( fragment );
+	wd::unwatch( geometry );
 
 	auto cb = [this, vertex, fragment, geometry]( const fs::path &path ) {
 		reza::live::glsl(

@@ -17,7 +17,7 @@ namespace ps {
 Renderer::Renderer( const ci::app::WindowRef &window,
 	const ci::fs::path &vertexPath,
 	const ci::fs::path &fragmentPath,
-	SystemRef &systemRef,
+	SystemRef systemRef,
 	std::function<void()> superFn,
 	std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn,
 	std::function<void( ci::Exception )> glslErrorFn )
@@ -31,7 +31,8 @@ Renderer::Renderer( const ci::app::WindowRef &window,
 	  mGlslParamsRef( GlslParams::create() ),
 	  mGlslProgFormat( systemRef->getRendererGlslFormat() )
 
-{}
+{
+}
 
 Renderer::~Renderer()
 {
@@ -70,8 +71,8 @@ void Renderer::setupGlsl()
 	auto vertex = mVertexPath;
 	auto fragment = mFragmentPath;
 
-	wd::unwatch(vertex);
-	wd::unwatch(fragment);
+	wd::unwatch( vertex );
+	wd::unwatch( fragment );
 
 	auto cb = [this, vertex, fragment]( const fs::path &path ) {
 		reza::live::glsl(

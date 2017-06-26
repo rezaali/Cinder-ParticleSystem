@@ -11,6 +11,7 @@ using namespace reza::glsl;
 
 namespace reza {
 namespace ps {
+
 PrimitiveRenderer::Format::Format()
 {
 	ci::geom::Sphere *sphere = new ci::geom::Sphere();
@@ -23,7 +24,7 @@ PrimitiveRenderer::PrimitiveRenderer(
 	const WindowRef &window,
 	const fs::path &vertexPath,
 	const fs::path &fragmentPath,
-	reza::ps::ParticleSystemRef &particleSystemRef,
+	reza::ps::ParticleSystemRef particleSystemRef,
 	const Format &format,
 	std::function<void()> superFn,
 	std::function<void( GlslParamsRef )> glslUpdatedFn,

@@ -16,8 +16,8 @@ PlexusRenderer::PlexusRenderer(
 	const WindowRef &window,
 	const fs::path &vertexPath,
 	const fs::path &fragmentPath,
-	reza::ps::ParticleSystemRef &particleSystemRef,
-	reza::ps::PlexusSystemRef &plexusSystemRef,
+	reza::ps::ParticleSystemRef particleSystemRef,
+	reza::ps::PlexusSystemRef plexusSystemRef,
 	std::function<void()> superFn,
 	std::function<void( GlslParamsRef )> glslUpdatedFn,
 	std::function<void( ci::Exception )> glslErrorFn )
@@ -47,8 +47,8 @@ void PlexusRenderer::setupBatch()
 		mVboMeshRef = gl::VboMesh::create( total, GL_LINES, { gl::VboMesh::Layout().attrib( geom::POSITION, 4 ) } );
 		mVboMeshRef->bufferAttrib( geom::POSITION, sizeof( vec4 ) * positions.size(), positions.data() );
 		mBatchRef = gl::Batch::create( mVboMeshRef, mGlslProgRef );
-		
-		Renderer::setupBatch(); 
+
+		Renderer::setupBatch();
 	}
 }
 

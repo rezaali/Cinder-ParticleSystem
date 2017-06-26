@@ -22,9 +22,9 @@ SOFTWARE.
 
 #pragma once
 
-#include "cinder/Log.h"
 #include "cinder/Exception.h"
 #include "cinder/Filesystem.h"
+#include "cinder/Log.h"
 
 #include "ParticleSystem.h"
 #include "Renderer.h"
@@ -40,18 +40,18 @@ class RibbonRenderer : public Renderer {
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
 		const ci::fs::path &geometryPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
-		reza::ps::TrailSystemRef &trailSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
+		reza::ps::TrailSystemRef trailSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr )
 	{
-		CI_LOG_E("Geometry: " + geometryPath.string()); 
+		CI_LOG_E( "Geometry: " + geometryPath.string() );
 		return RibbonRendererRef( new RibbonRenderer( window, vertexPath, fragmentPath, geometryPath, particleSystemRef, trailSystemRef, superFn, glslUpdatedFn, glslErrorFn ) );
 	}
 
 	void setupGlsl() override;
-	void setupBatch() override; 
+	void setupBatch() override;
 
   protected:
 	RibbonRenderer(
@@ -59,8 +59,8 @@ class RibbonRenderer : public Renderer {
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
 		const ci::fs::path &geometryPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
-		reza::ps::TrailSystemRef &trailSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
+		reza::ps::TrailSystemRef trailSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr );
@@ -71,7 +71,7 @@ class RibbonRenderer : public Renderer {
 	ci::gl::VboMeshRef mVboMeshRef;
 	ci::gl::BatchRef mBatchRef;
 
-	ci::fs::path mGeometryPath; 
+	ci::fs::path mGeometryPath;
 	void _draw() override;
 };
 

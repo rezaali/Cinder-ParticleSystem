@@ -54,9 +54,9 @@ class System : public std::enable_shared_from_this<class System> {
 	virtual bool isInitialized() { return mGlslInitialized; }
 	virtual void setInitialized( bool initialized ) { mGlslInitialized = initialized; }
 	virtual ci::gl::GlslProgRef getGlslProgRef() { return mGlslProgRef; }
-
-	virtual ci::gl::VaoRef getVao( int index ) {
-		return mVaos[index]; 
+	virtual ci::gl::VaoRef getVao( int index )
+	{
+		return mVaos[index];
 	}
 
 	virtual ci::gl::GlslProg::Format getRendererGlslFormat()
@@ -65,14 +65,14 @@ class System : public std::enable_shared_from_this<class System> {
 		return format;
 	}
 
-	void setUpdateBuffers( bool value ) {
-		mUpdateBuffers = value; 
+	void setUpdateBuffers( bool value )
+	{
+		mUpdateBuffers = value;
 	}
 
 	void reset() { mUpdateBuffers = true; }
-
 	int getIterationIndex() { return mIterationIndex; }
-	int getTotal() { return mTotal; } 
+	int getTotal() { return mTotal; }
 	void setTotal( int total )
 	{
 		if( total != mTotal ) {

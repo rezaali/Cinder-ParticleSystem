@@ -33,45 +33,44 @@ namespace ps {
 typedef std::shared_ptr<class PrimitiveRenderer> PrimitiveRendererRef;
 class PrimitiveRenderer : public Renderer {
   public:
-	  struct Format {
+	struct Format {
 	  public:
-		  Format();
-		  Format(const Format &copy)
-		  {
-			  mSourceRef = copy.mSourceRef;
-		  }
+		Format();
+		Format( const Format &copy )
+		{
+			mSourceRef = copy.mSourceRef;
+		}
 
-		  Format &source(const ci::geom::SourceRef& sourceRef)
-		  {
-			  mSourceRef = sourceRef;
-			  return *this;
-		  }
+		Format &source( const ci::geom::SourceRef &sourceRef )
+		{
+			mSourceRef = sourceRef;
+			return *this;
+		}
 
 	  protected:
-		  ci::geom::SourceRef mSourceRef; 
-		  friend class PrimitiveRenderer;
-	  };
+		ci::geom::SourceRef mSourceRef;
+		friend class PrimitiveRenderer;
+	};
 
 	static PrimitiveRendererRef create(
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
 		const Format &format,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr )
 	{
-		return PrimitiveRendererRef( new PrimitiveRenderer( 
-			window, 
-			vertexPath, 
-			fragmentPath, 
-			particleSystemRef, 
-			format, 
-			superFn, 
-			glslUpdatedFn, 
-			glslErrorFn 
-		) );
+		return PrimitiveRendererRef( new PrimitiveRenderer(
+			window,
+			vertexPath,
+			fragmentPath,
+			particleSystemRef,
+			format,
+			superFn,
+			glslUpdatedFn,
+			glslErrorFn ) );
 	}
 
 	void setupBatch() override;
@@ -81,13 +80,13 @@ class PrimitiveRenderer : public Renderer {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
 		const Format &format,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr );
 
-	Format mFormat; 
+	Format mFormat;
 	ParticleSystemRef mParticleSystemRef;
 	ci::gl::BatchRef mBatchRef[2];
 

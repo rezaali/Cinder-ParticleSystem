@@ -1,4 +1,4 @@
-#include "..\include\SpriteRenderer.h"
+#include "SpriteRenderer.h"
 
 #include "LiveCode.h"
 #include "cinder/gl/gl.h"
@@ -16,7 +16,7 @@ SpriteRenderer::SpriteRenderer(
 	const WindowRef &window,
 	const fs::path &vertexPath,
 	const fs::path &fragmentPath,
-	reza::ps::ParticleSystemRef &particleSystemRef,
+	reza::ps::ParticleSystemRef particleSystemRef,
 	std::function<void()> superFn,
 	std::function<void( GlslParamsRef )> glslUpdatedFn,
 	std::function<void( ci::Exception )> glslErrorFn )

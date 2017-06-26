@@ -37,7 +37,7 @@ class PointRenderer : public Renderer {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr )
@@ -50,13 +50,13 @@ class PointRenderer : public Renderer {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr );
 
-	ParticleSystemRef mParticleSystemRef; 
-	void _draw() override; 
+	ParticleSystemRef mParticleSystemRef;
+	void _draw() override;
 };
 
 } // namespace ps

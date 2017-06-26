@@ -26,8 +26,8 @@ SOFTWARE.
 #include "cinder/Filesystem.h"
 
 #include "ParticleSystem.h"
-#include "TrailSystem.h"
 #include "Renderer.h"
+#include "TrailSystem.h"
 
 namespace reza {
 namespace ps {
@@ -38,8 +38,8 @@ class TrailPointRenderer : public Renderer {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
-		reza::ps::TrailSystemRef &trailSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
+		reza::ps::TrailSystemRef trailSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr )
@@ -52,8 +52,8 @@ class TrailPointRenderer : public Renderer {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
-		reza::ps::TrailSystemRef &trailSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
+		reza::ps::TrailSystemRef trailSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr );

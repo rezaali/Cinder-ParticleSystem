@@ -30,7 +30,7 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::setupBuffers()
 {
-	CI_LOG_D("SETTING UP BUFFERS"); 
+	CI_LOG_D( "SETTING UP BUFFERS" );
 	vector<vec4> positions;
 	vector<vec4> velocities;
 	vector<ivec4> info;
@@ -112,7 +112,7 @@ void ParticleSystem::updateBuffers()
 
 void ParticleSystem::_update()
 {
-	if( mGlslProgRef ) {
+	if( mGlslProgRef && mPositionBufferTextures[0] && mPositionBufferTextures[1] && mVelocityBufferTextures[0] && mVelocityBufferTextures[1] && mFeedbackObjs[0] && mFeedbackObjs[1] ) {
 		gl::ScopedGlslProg updateScope( mGlslProgRef );
 		gl::ScopedState stateScope( GL_RASTERIZER_DISCARD, true );
 
@@ -123,15 +123,16 @@ void ParticleSystem::_update()
 
 		for( int i = mIterationsPerFrame; i != 0; --i ) {
 			gl::ScopedVao vaoScope( mVaos[mIterationIndex & 1] );
-			//Bind Buffers
 			mPositionBufferTextures[mIterationIndex & 1]->bindTexture( 0 );
 			mVelocityBufferTextures[mIterationIndex & 1]->bindTexture( 1 );
-			//Increment TF
 			mIterationIndex++;
 			mFeedbackObjs[mIterationIndex & 1]->bind();
 			gl::beginTransformFeedback( GL_POINTS );
 			gl::drawArrays( GL_POINTS, 0, mTotal );
 			gl::endTransformFeedback();
+			mFeedbackObjs[mIterationIndex & 1]->unbind();
+			mPositionBufferTextures[mIterationIndex & 1]->unbindTexture();
+			mVelocityBufferTextures[mIterationIndex & 1]->unbindTexture();
 		}
 	}
 }

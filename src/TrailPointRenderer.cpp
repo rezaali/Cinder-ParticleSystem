@@ -1,4 +1,4 @@
-#include "..\include\TrailPointRenderer.h"
+#include "TrailPointRenderer.h"
 
 #include "LiveCode.h"
 #include "cinder/Log.h"
@@ -20,8 +20,8 @@ TrailPointRenderer::TrailPointRenderer(
 	const WindowRef &window,
 	const fs::path &vertexPath,
 	const fs::path &fragmentPath,
-	reza::ps::ParticleSystemRef &particleSystemRef,
-	reza::ps::TrailSystemRef &trailSystemRef,
+	reza::ps::ParticleSystemRef particleSystemRef,
+	reza::ps::TrailSystemRef trailSystemRef,
 	std::function<void()> superFn,
 	std::function<void( GlslParamsRef )> glslUpdatedFn,
 	std::function<void( ci::Exception )> glslErrorFn )

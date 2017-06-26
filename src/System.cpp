@@ -43,7 +43,7 @@ void System::setup()
 
 void System::setupGlsl()
 {
-	wd::unwatch(mVertexPath);
+	wd::unwatch( mVertexPath );
 
 	auto cb = [this]( const fs::path &path ) {
 		reza::live::glsl(
@@ -91,12 +91,15 @@ void System::update()
 	if( mSetupBuffers ) {
 		setupBuffers();
 		mSetupBuffers = false;
+		cout << "BUFFERS SETUP" << endl;
 	}
-	else if( mUpdateBuffers ) {
+
+	if( mUpdateBuffers ) {
 		mIterationIndex = 0;
 		mTotal = mTotalNew;
 		updateBuffers();
 		mUpdateBuffers = false;
+		cout << "BUFFERS UPDATED" << endl;
 	}
 
 	if( mUpdate && mGlslProgRef ) {

@@ -17,7 +17,7 @@ TrailSystem::TrailSystem(
 	const WindowRef &window,
 	const fs::path &vertexPath,
 	gl::GlslProg::Format &glslFormat,
-	ParticleSystemRef &particleSystemRef,
+	ParticleSystemRef particleSystemRef,
 	std::function<void()> superFn,
 	std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn,
 	std::function<void( ci::Exception )> glslErrorFn )
@@ -64,17 +64,17 @@ void TrailSystem::updateBuffers()
 {
 	int ptotal = mParticleSystemRef->getTotal();
 	int total = ptotal * mTotal;
-	
+
 	vector<ivec4> info( total, ivec4( 0 ) );
 	for( int i = 0; i < total; i++ ) {
 		info[i][0] = i;
 	}
 	mInfoVbo->bufferData( info.size() * sizeof( ivec4 ), info.data(), GL_STATIC_DRAW );
 
-	vector<vec4> positions(total, vec4(0.0));
-	for (int i = 0; i < 2; i++) {
-		mPositionsVbo[i]->bufferData(positions.size() * sizeof(vec4), positions.data(), GL_DYNAMIC_DRAW);
-		mPositionBufferTextures[i] = gl::BufferTexture::create(mPositionsVbo[i], GL_RGBA32F);
+	vector<vec4> positions( total, vec4( 0.0 ) );
+	for( int i = 0; i < 2; i++ ) {
+		mPositionsVbo[i]->bufferData( positions.size() * sizeof( vec4 ), positions.data(), GL_DYNAMIC_DRAW );
+		mPositionBufferTextures[i] = gl::BufferTexture::create( mPositionsVbo[i], GL_RGBA32F );
 	}
 }
 

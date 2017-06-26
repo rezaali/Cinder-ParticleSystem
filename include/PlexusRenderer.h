@@ -22,9 +22,9 @@ SOFTWARE.
 
 #pragma once
 
-#include "Renderer.h"
 #include "ParticleSystem.h"
 #include "PlexusSystem.h"
+#include "Renderer.h"
 
 namespace reza {
 namespace ps {
@@ -35,8 +35,8 @@ class PlexusRenderer : public Renderer {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
-		reza::ps::PlexusSystemRef &plexusSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
+		reza::ps::PlexusSystemRef plexusSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr )
@@ -51,8 +51,8 @@ class PlexusRenderer : public Renderer {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		const ci::fs::path &fragmentPath,
-		reza::ps::ParticleSystemRef &particleSystemRef,
-		reza::ps::PlexusSystemRef &plexusSystemRef,
+		reza::ps::ParticleSystemRef particleSystemRef,
+		reza::ps::PlexusSystemRef plexusSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr );
@@ -61,12 +61,10 @@ class PlexusRenderer : public Renderer {
 	ParticleSystemRef mParticleSystemRef;
 	ci::gl::VboMeshRef mVboMeshRef;
 	ci::gl::BatchRef mBatchRef;
-	int mTotal = 0; 
-
+	int mTotal = 0;
 
 	void _draw() override;
 };
 
 } // namespace ps
 } // namespace reza
-

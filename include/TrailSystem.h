@@ -38,7 +38,7 @@ class TrailSystem : public System {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		ci::gl::GlslProg::Format &glslFormat,
-		ParticleSystemRef &particleSystemRef,
+		ParticleSystemRef particleSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr )
@@ -66,7 +66,7 @@ class TrailSystem : public System {
 		const ci::app::WindowRef &window,
 		const ci::fs::path &vertexPath,
 		ci::gl::GlslProg::Format &glslFormat,
-		ParticleSystemRef &particleSystemRef,
+		ParticleSystemRef particleSystemRef,
 		std::function<void()> superFn = nullptr,
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr );
