@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include "cinder/Exception.h"
 #include "cinder/Filesystem.h"
+#include "cinder/GeomIo.h"
 
 #include "ParticleSystem.h"
 #include "Renderer.h"
@@ -38,17 +39,21 @@ class PrimitiveRenderer : public Renderer {
 		Format();
 		Format( const Format &copy )
 		{
-			mSourceRef = copy.mSourceRef;
+			mGeom = copy.mGeom;
 		}
 
-		Format &source( const ci::geom::SourceRef &sourceRef )
+		Format &geometry( ci::geom::Source *geom )
 		{
-			mSourceRef = sourceRef;
+			if( mGeom != nullptr ) {
+				delete mGeom;
+				mGeom = nullptr;
+			}
+			mGeom = geom;
 			return *this;
 		}
 
 	  protected:
-		ci::geom::SourceRef mSourceRef;
+		ci::geom::Source *mGeom = nullptr;
 		friend class PrimitiveRenderer;
 	};
 
@@ -72,6 +77,8 @@ class PrimitiveRenderer : public Renderer {
 			glslUpdatedFn,
 			glslErrorFn ) );
 	}
+
+	void setGeometry( ci::geom::Source *geom );
 
 	void setupBatch() override;
 

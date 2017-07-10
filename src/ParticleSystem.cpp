@@ -30,18 +30,22 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::setupBuffers()
 {
-	CI_LOG_D( "SETTING UP BUFFERS" );
 	vector<vec4> positions;
 	vector<vec4> velocities;
-	vector<ivec4> info;
+	vector<vec4> colors;
+	vector<vec4> orientations;
 
 	mPositionVbo[0] = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof( vec4 ), positions.data(), GL_DYNAMIC_DRAW );
 	mPositionVbo[1] = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof( vec4 ), nullptr, GL_DYNAMIC_DRAW );
+
 	mVelocityVbo[0] = gl::Vbo::create( GL_ARRAY_BUFFER, velocities.size() * sizeof( vec4 ), velocities.data(), GL_DYNAMIC_DRAW );
 	mVelocityVbo[1] = gl::Vbo::create( GL_ARRAY_BUFFER, velocities.size() * sizeof( vec4 ), nullptr, GL_DYNAMIC_DRAW );
 
-	mInfo[0] = gl::Vbo::create( GL_ARRAY_BUFFER, info.size() * sizeof( ivec4 ), info.data(), GL_DYNAMIC_DRAW );
-	mInfo[1] = gl::Vbo::create( GL_ARRAY_BUFFER, info.size() * sizeof( ivec4 ), nullptr, GL_DYNAMIC_DRAW );
+	mColorVbo[0] = gl::Vbo::create( GL_ARRAY_BUFFER, colors.size() * sizeof( vec4 ), colors.data(), GL_DYNAMIC_DRAW );
+	mColorVbo[1] = gl::Vbo::create( GL_ARRAY_BUFFER, colors.size() * sizeof( vec4 ), nullptr, GL_DYNAMIC_DRAW );
+
+	mOrientationVbo[0] = gl::Vbo::create( GL_ARRAY_BUFFER, orientations.size() * sizeof( vec4 ), orientations.data(), GL_DYNAMIC_DRAW );
+	mOrientationVbo[1] = gl::Vbo::create( GL_ARRAY_BUFFER, orientations.size() * sizeof( vec4 ), nullptr, GL_DYNAMIC_DRAW );
 
 	for( int i = 0; i < 2; i++ ) {
 		mVaos[i] = gl::Vao::create();
@@ -55,18 +59,26 @@ void ParticleSystem::setupBuffers()
 		gl::vertexAttribPointer( PARTICLES_VEL_INDEX, 4, GL_FLOAT, GL_FALSE, 0, NULL );
 		gl::enableVertexAttribArray( PARTICLES_VEL_INDEX );
 
-		mInfo[i]->bind();
-		gl::vertexAttribIPointer( PARTICLES_INFO_INDEX, 4, GL_INT, 0, NULL );
-		gl::enableVertexAttribArray( PARTICLES_INFO_INDEX );
+		mColorVbo[i]->bind();
+		gl::vertexAttribPointer( PARTICLES_CLR_INDEX, 4, GL_FLOAT, GL_FALSE, 0, NULL );
+		gl::enableVertexAttribArray( PARTICLES_CLR_INDEX );
+
+		mOrientationVbo[i]->bind();
+		gl::vertexAttribPointer( PARTICLES_ORI_INDEX, 4, GL_FLOAT, GL_FALSE, 0, NULL );
+		gl::enableVertexAttribArray( PARTICLES_ORI_INDEX );
 
 		mFeedbackObjs[i] = gl::TransformFeedbackObj::create();
 		mFeedbackObjs[i]->bind();
 		gl::bindBufferBase( GL_TRANSFORM_FEEDBACK_BUFFER, PARTICLES_POS_INDEX, mPositionVbo[i] );
 		gl::bindBufferBase( GL_TRANSFORM_FEEDBACK_BUFFER, PARTICLES_VEL_INDEX, mVelocityVbo[i] );
-		gl::bindBufferBase( GL_TRANSFORM_FEEDBACK_BUFFER, PARTICLES_INFO_INDEX, mInfo[i] );
+		gl::bindBufferBase( GL_TRANSFORM_FEEDBACK_BUFFER, PARTICLES_CLR_INDEX, mColorVbo[i] );
+		gl::bindBufferBase( GL_TRANSFORM_FEEDBACK_BUFFER, PARTICLES_ORI_INDEX, mOrientationVbo[i] );
 		mFeedbackObjs[i]->unbind();
+
 		mPositionBufferTextures[i] = gl::BufferTexture::create( mPositionVbo[i], GL_RGBA32F );
 		mVelocityBufferTextures[i] = gl::BufferTexture::create( mVelocityVbo[i], GL_RGBA32F );
+		mColorBufferTextures[i] = gl::BufferTexture::create( mColorVbo[i], GL_RGBA32F );
+		mOrientationBufferTextures[i] = gl::BufferTexture::create( mOrientationVbo[i], GL_RGBA32F );
 	}
 }
 
@@ -74,7 +86,8 @@ void ParticleSystem::updateBuffers()
 {
 	vector<vec4> positions( mTotal );
 	vector<vec4> velocities( mTotal, vec4( 0.0f ) );
-	vector<ivec4> infos( mTotal, ivec4( 0 ) );
+	vector<vec4> colors( mTotal, vec4( 0.0f ) );
+	vector<vec4> orientations( mTotal, vec4( 0.0f ) );
 
 	float randSize = 5.0f;
 	float velSize = 1.0;
@@ -83,7 +96,7 @@ void ParticleSystem::updateBuffers()
 			randFloat( -randSize, randSize ),
 			randFloat( -randSize, randSize ),
 			randFloat( -randSize, randSize ),
-			randFloat() );
+			float( i ) );
 
 		velocities[i] = vec4(
 			randFloat( -velSize, velSize ),
@@ -91,35 +104,49 @@ void ParticleSystem::updateBuffers()
 			randFloat( -velSize, velSize ),
 			randFloat( -velSize, velSize ) );
 
-		infos[i][0] = i; //ID
-		infos[i][1] = 0;
-		infos[i][2] = 0;
-		infos[i][3] = 0;
+		colors[i] = vec4(
+			randFloat(),
+			randFloat(),
+			randFloat(),
+			randFloat() );
+
+		orientations[i] = vec4(
+			randFloat(),
+			randFloat(),
+			randFloat(),
+			randFloat() );
 	}
 
 	mPositionVbo[0]->bufferData( positions.size() * sizeof( vec4 ), positions.data(), GL_DYNAMIC_DRAW );
 	mPositionVbo[1]->bufferData( positions.size() * sizeof( vec4 ), nullptr, GL_DYNAMIC_DRAW );
+
 	mVelocityVbo[0]->bufferData( velocities.size() * sizeof( vec4 ), velocities.data(), GL_DYNAMIC_DRAW );
 	mVelocityVbo[1]->bufferData( velocities.size() * sizeof( vec4 ), nullptr, GL_DYNAMIC_DRAW );
-	mInfo[0]->bufferData( infos.size() * sizeof( ivec4 ), infos.data(), GL_DYNAMIC_DRAW );
-	mInfo[1]->bufferData( infos.size() * sizeof( ivec4 ), nullptr, GL_DYNAMIC_DRAW );
+
+	mColorVbo[0]->bufferData( colors.size() * sizeof( vec4 ), colors.data(), GL_DYNAMIC_DRAW );
+	mColorVbo[1]->bufferData( colors.size() * sizeof( vec4 ), nullptr, GL_DYNAMIC_DRAW );
+
+	mOrientationVbo[0]->bufferData( orientations.size() * sizeof( vec4 ), orientations.data(), GL_DYNAMIC_DRAW );
+	mOrientationVbo[1]->bufferData( orientations.size() * sizeof( vec4 ), nullptr, GL_DYNAMIC_DRAW );
 
 	for( int i = 0; i < 2; i++ ) {
 		mPositionBufferTextures[i] = gl::BufferTexture::create( mPositionVbo[i], GL_RGBA32F );
 		mVelocityBufferTextures[i] = gl::BufferTexture::create( mVelocityVbo[i], GL_RGBA32F );
+		mColorBufferTextures[i] = gl::BufferTexture::create( mColorVbo[i], GL_RGBA32F );
+		mOrientationBufferTextures[i] = gl::BufferTexture::create( mOrientationVbo[i], GL_RGBA32F );
 	}
 }
 
 void ParticleSystem::_update()
 {
-	if( mGlslProgRef && mPositionBufferTextures[0] && mPositionBufferTextures[1] && mVelocityBufferTextures[0] && mVelocityBufferTextures[1] && mFeedbackObjs[0] && mFeedbackObjs[1] ) {
+	if( mGlslProgRef ) {
 		gl::ScopedGlslProg updateScope( mGlslProgRef );
 		gl::ScopedState stateScope( GL_RASTERIZER_DISCARD, true );
 
 		mGlslParamsRef->applyUniforms( mGlslProgRef );
 
-		mGlslProgRef->uniform( "uPositionMass", 0 );
-		mGlslProgRef->uniform( "uVelocity", 1 );
+		mGlslProgRef->uniform( "uPositionId", 0 );
+		mGlslProgRef->uniform( "uVelocityMass", 1 );
 
 		for( int i = mIterationsPerFrame; i != 0; --i ) {
 			gl::ScopedVao vaoScope( mVaos[mIterationIndex & 1] );

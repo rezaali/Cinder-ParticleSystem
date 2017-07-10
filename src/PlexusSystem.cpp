@@ -106,7 +106,7 @@ void PlexusSystem::_update()
 		gl::ScopedGlslProg scpGlsl( mGlslProgRef );
 		gl::ScopedState stateScope( GL_RASTERIZER_DISCARD, true );
 		mGlslParamsRef->applyUniforms( mGlslProgRef );
-		mGlslProgRef->uniform( "uPositionMass", 0 );
+		mGlslProgRef->uniform( "uPositionId", 0 );
 		gl::ScopedVao vaoScope( mVaos[mIterationIndex & 1] );
 		mParticleSystemRef->getPositionBufferTextureRef( mIterationIndex & 1 )->bindTexture( 0 );
 		mIterationIndex++;

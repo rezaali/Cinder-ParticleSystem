@@ -37,7 +37,8 @@ namespace ps {
 
 const int PARTICLES_POS_INDEX = 0;
 const int PARTICLES_VEL_INDEX = 1;
-const int PARTICLES_INFO_INDEX = 2;
+const int PARTICLES_CLR_INDEX = 2;
+const int PARTICLES_ORI_INDEX = 3;
 
 typedef std::shared_ptr<class ParticleSystem> ParticleSystemRef;
 class ParticleSystem : public System {
@@ -66,6 +67,16 @@ class ParticleSystem : public System {
 		return mVelocityVbo[index];
 	}
 
+	ci::gl::VboRef getColorVbo( int index )
+	{
+		return mColorVbo[index];
+	}
+
+	ci::gl::VboRef getOrientationVbo( int index )
+	{
+		return mOrientationVbo[index];
+	}
+
 	ci::gl::Batch::AttributeMapping getRendererGlslAttributeMapping()
 	{
 		ci::geom::BufferLayout instancePositionDataLayout;
@@ -74,7 +85,18 @@ class ParticleSystem : public System {
 		ci::geom::BufferLayout instanceVelocityDataLayout;
 		instanceVelocityDataLayout.append( ci::geom::Attrib::CUSTOM_1, 4, 0, 0, 1 /* per instance */ );
 
-		return { { ci::geom::Attrib::CUSTOM_0, "position_mass" }, { ci::geom::Attrib::CUSTOM_1, "velocity_mass" } };
+		ci::geom::BufferLayout instanceColorDataLayout;
+		instanceColorDataLayout.append( ci::geom::Attrib::CUSTOM_2, 4, 0, 0, 1 /* per instance */ );
+
+		ci::geom::BufferLayout instanceOrientationDataLayout;
+		instanceOrientationDataLayout.append( ci::geom::Attrib::CUSTOM_3, 4, 0, 0, 1 /* per instance */ );
+
+		return {
+			{ ci::geom::Attrib::CUSTOM_0, "position_id" },
+			{ ci::geom::Attrib::CUSTOM_1, "velocity_mass" },
+			{ ci::geom::Attrib::CUSTOM_2, "color" },
+			{ ci::geom::Attrib::CUSTOM_3, "orientation" }
+		};
 	}
 
 	ci::gl::BufferTextureRef &getPositionBufferTextureRef( int index )
@@ -82,11 +104,28 @@ class ParticleSystem : public System {
 		return mPositionBufferTextures[index];
 	}
 
+	ci::gl::BufferTextureRef &getVelocityBufferTextureRef( int index )
+	{
+		return mVelocityBufferTextures[index];
+	}
+
+	ci::gl::BufferTextureRef &getColorBufferTextureRef( int index )
+	{
+		return mColorBufferTextures[index];
+	}
+
+	ci::gl::BufferTextureRef &getOrientationBufferTextureRef( int index )
+	{
+		return mOrientationBufferTextures[index];
+	}
+
 	ci::gl::GlslProg::Format getRendererGlslFormat() override
 	{
 		ci::gl::GlslProg::Format format;
-		format.attribLocation( "position_mass", PARTICLES_POS_INDEX );
+		format.attribLocation( "position_id", PARTICLES_POS_INDEX );
 		format.attribLocation( "velocity_mass", PARTICLES_VEL_INDEX );
+		format.attribLocation( "color", PARTICLES_CLR_INDEX );
+		format.attribLocation( "orientation", PARTICLES_ORI_INDEX );
 		return format;
 	}
 
@@ -109,11 +148,13 @@ class ParticleSystem : public System {
 
 	ci::gl::VboRef mPositionVbo[2];
 	ci::gl::VboRef mVelocityVbo[2];
-	ci::gl::VboRef mInfo[2];
+	ci::gl::VboRef mColorVbo[2];
+	ci::gl::VboRef mOrientationVbo[2];
 
 	ci::gl::BufferTextureRef mPositionBufferTextures[2];
 	ci::gl::BufferTextureRef mVelocityBufferTextures[2];
-	ci::gl::BufferTextureRef mInfoBufferTexture;
+	ci::gl::BufferTextureRef mColorBufferTextures[2];
+	ci::gl::BufferTextureRef mOrientationBufferTextures[2];
 
 	void _update() override;
 };

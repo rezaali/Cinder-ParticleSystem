@@ -91,7 +91,6 @@ void System::update()
 	if( mSetupBuffers ) {
 		setupBuffers();
 		mSetupBuffers = false;
-		cout << "BUFFERS SETUP" << endl;
 	}
 
 	if( mUpdateBuffers ) {
@@ -99,7 +98,6 @@ void System::update()
 		mTotal = mTotalNew;
 		updateBuffers();
 		mUpdateBuffers = false;
-		cout << "BUFFERS UPDATED" << endl;
 	}
 
 	if( mUpdate && mGlslProgRef ) {

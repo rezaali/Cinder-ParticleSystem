@@ -59,7 +59,7 @@ void PlexusRenderer::_draw()
 			mTotal = mPlexusSystemRef->getTotal();
 			setupBatch();
 		}
-		mGlslProgRef->uniform( "uPositionMass", 0 );
+		mGlslProgRef->uniform( "uPositionId", 0 );
 		mParticleSystemRef->getPositionBufferTextureRef( mParticleSystemRef->getIterationIndex() & 1 )->bindTexture( 0 );
 		mGlslProgRef->uniform( "uPlexus", 1 );
 		mPlexusSystemRef->getDistanceBufferTextureRef( mPlexusSystemRef->getIterationIndex() & 1 )->bindTexture( 1 );

@@ -46,7 +46,6 @@ class RibbonRenderer : public Renderer {
 		std::function<void( reza::glsl::GlslParamsRef )> glslUpdatedFn = nullptr,
 		std::function<void( ci::Exception )> glslErrorFn = nullptr )
 	{
-		CI_LOG_E( "Geometry: " + geometryPath.string() );
 		return RibbonRendererRef( new RibbonRenderer( window, vertexPath, fragmentPath, geometryPath, particleSystemRef, trailSystemRef, superFn, glslUpdatedFn, glslErrorFn ) );
 	}
 

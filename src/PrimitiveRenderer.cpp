@@ -17,7 +17,7 @@ PrimitiveRenderer::Format::Format()
 	ci::geom::Sphere *sphere = new ci::geom::Sphere();
 	sphere->radius( 0.5 );
 	sphere->subdivisions( 60 );
-	mSourceRef = static_cast<ci::geom::SourceRef>( sphere );
+	mGeom = sphere;
 }
 
 PrimitiveRenderer::PrimitiveRenderer(
@@ -42,11 +42,17 @@ PrimitiveRenderer::PrimitiveRenderer(
 {
 }
 
+void PrimitiveRenderer::setGeometry( ci::geom::Source *geom )
+{
+	mFormat.geometry( geom );
+	setupBatch();
+}
+
 void PrimitiveRenderer::setupBatch()
 {
 	if( mGlslProgRef ) {
 		for( int i = 0; i < 2; i++ ) {
-			mBatchRef[i] = gl::Batch::create( *mFormat.mSourceRef, mGlslProgRef );
+			mBatchRef[i] = gl::Batch::create( *mFormat.mGeom, mGlslProgRef );
 		}
 		Renderer::setupBatch();
 	}
@@ -56,8 +62,17 @@ void PrimitiveRenderer::_draw()
 {
 	if( mBatchRef[mParticleSystemRef->getIterationIndex() & 1] ) {
 		mGlslParamsRef->applyUniforms( mGlslProgRef );
-		mGlslProgRef->uniform( "position_mass", 0 );
+
+		mGlslProgRef->uniform( "position_id", 0 );
+		mGlslProgRef->uniform( "velocity_mass", 1 );
+		mGlslProgRef->uniform( "color", 2 );
+		mGlslProgRef->uniform( "orientation", 3 );
+
 		mParticleSystemRef->getPositionBufferTextureRef( mParticleSystemRef->getIterationIndex() & 1 )->bindTexture( 0 );
+		mParticleSystemRef->getVelocityBufferTextureRef( mParticleSystemRef->getIterationIndex() & 1 )->bindTexture( 1 );
+		mParticleSystemRef->getColorBufferTextureRef( mParticleSystemRef->getIterationIndex() & 1 )->bindTexture( 2 );
+		mParticleSystemRef->getOrientationBufferTextureRef( mParticleSystemRef->getIterationIndex() & 1 )->bindTexture( 3 );
+
 		mBatchRef[mParticleSystemRef->getIterationIndex() & 1]->drawInstanced( mParticleSystemRef->getTotal() );
 	}
 }

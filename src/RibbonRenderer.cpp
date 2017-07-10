@@ -63,7 +63,6 @@ void RibbonRenderer::setupGlsl()
 				}
 			},
 			[this]( gl::GlslProgRef result, vector<string> sources ) {
-				CI_LOG_E( "COMPILED RIBBON GLSL" );
 				mWindowRef->getRenderer()->makeCurrentContext( true );
 				mGlslProgRef = result;
 				_setupBatch();
