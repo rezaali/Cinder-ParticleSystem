@@ -59,10 +59,18 @@ void PlexusRenderer::_draw()
 			mTotal = mPlexusSystemRef->getTotal();
 			setupBatch();
 		}
-		mGlslProgRef->uniform( "uPositionId", 0 );
-		mParticleSystemRef->getPositionBufferTextureRef( mParticleSystemRef->getIterationIndex() & 1 )->bindTexture( 0 );
-		mGlslProgRef->uniform( "uPlexus", 1 );
-		mPlexusSystemRef->getDistanceBufferTextureRef( mPlexusSystemRef->getIterationIndex() & 1 )->bindTexture( 1 );
+        mGlslProgRef->uniform( "position_id", 0 );
+        mGlslProgRef->uniform( "velocity_mass", 1 );
+        mGlslProgRef->uniform( "color", 2 );
+        mGlslProgRef->uniform( "orientation", 3 );
+        
+        mParticleSystemRef->getPositionBufferTextureRef( mParticleSystemRef->getIterationIndex() & 1 )->bindTexture( 0 );
+        mParticleSystemRef->getVelocityBufferTextureRef( mParticleSystemRef->getIterationIndex() & 1 )->bindTexture( 1 );
+        mParticleSystemRef->getColorBufferTextureRef( mParticleSystemRef->getIterationIndex() & 1 )->bindTexture( 2 );
+        mParticleSystemRef->getOrientationBufferTextureRef( mParticleSystemRef->getIterationIndex() & 1 )->bindTexture( 3 );
+
+        mGlslProgRef->uniform( "uPlexus", 4 );
+		mPlexusSystemRef->getDistanceBufferTextureRef( mPlexusSystemRef->getIterationIndex() & 1 )->bindTexture( 4 );
 		mBatchRef->draw();
 	}
 }
