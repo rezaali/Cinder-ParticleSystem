@@ -134,6 +134,8 @@ class ParticleSystem : public System {
 		return static_cast<SystemRef>( this );
 	}
 
+	void setPositions( std::vector<ci::vec3> *positions );
+
   protected:
 	ParticleSystem(
 		const ci::app::WindowRef &window,

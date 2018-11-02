@@ -111,6 +111,19 @@ void RibbonRenderer::_draw()
 	int index = mTrailSystemRef->getIterationIndex() & 1;
 	mGlslProgRef->uniform( "tex_position", 0 );
 	mTrailSystemRef->getPositionBufferTextureRef( index )->bindTexture( 0 );
+    
+    mGlslProgRef->uniform( "tex_position", 0 );
+    mTrailSystemRef->getPositionBufferTextureRef( index )->bindTexture( 0 );
+    
+    mGlslProgRef->uniform( "velocity_mass", 1 );
+    mParticleSystemRef->getVelocityBufferTextureRef( index )->bindTexture( 1 );
+    
+    mGlslProgRef->uniform( "color", 2 );
+    mParticleSystemRef->getColorBufferTextureRef( index )->bindTexture( 2 );
+    
+    mGlslProgRef->uniform( "orientation", 3 );
+    mParticleSystemRef->getOrientationBufferTextureRef( index )->bindTexture( 3 );
+    
 	mBatchRef->drawInstanced( mParticleSystemRef->getTotal() );
 }
 

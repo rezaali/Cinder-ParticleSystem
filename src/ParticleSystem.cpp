@@ -82,6 +82,28 @@ void ParticleSystem::setupBuffers()
 	}
 }
 
+void ParticleSystem::setPositions( std::vector<ci::vec3> *positions )
+{
+	mIterationIndex = 0;
+	int total = int( positions->size() );
+	if( total != mTotal ) {
+		setTotal( total );
+	}
+
+	vector<vec4> ps( mTotal );
+	for( int i = 0; i < mTotal; i++ ) {
+		vec3 p = ( *positions )[i];
+		ps[i] = vec4( p.x, p.y, p.z, float( i ) );
+	}
+
+	mPositionVbo[0]->bufferData( ps.size() * sizeof( vec4 ), ps.data(), GL_DYNAMIC_DRAW );
+	mPositionVbo[1]->bufferData( ps.size() * sizeof( vec4 ), nullptr, GL_DYNAMIC_DRAW );
+
+	for( int i = 0; i < 2; i++ ) {
+		mPositionBufferTextures[i] = gl::BufferTexture::create( mPositionVbo[i], GL_RGBA32F );
+	}
+}
+
 void ParticleSystem::updateBuffers()
 {
 	vector<vec4> positions( mTotal );
